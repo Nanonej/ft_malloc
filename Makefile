@@ -6,25 +6,35 @@
 #    By: aridolfi <aridolfi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/26 11:39:34 by aridolfi          #+#    #+#              #
-#    Updated: 2018/02/26 12:56:11 by aridolfi         ###   ########.fr        #
+#    Updated: 2018/04/17 11:43:41 by aridolfi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# Executable
-NAME 	= 	ft_malloc
+# Check env
+ifeq ($(HOSTTYPE),)
+	HOSTTYPE := $(shell uname -m)_$(shell uname -s)
+endif
+
+# Library
+NAME 	= 	libft_malloc_$(HOSTTYPE).so
+LINK	=	libft_malloc.so
 
 # Compilation
 CC		= 	cc
-CFLAGS	= 	-Wall -Wextra -Werror
-OPTFLAGS=	-Ofast
+CFLAGS	=	-Wall -Wextra -Werror
 
 # Directories
+SRCDIR	=	srcs
 OBJDIR	= 	objs
+INCDIR	=	./includes
 LIBDIR	= 	./libft/
 
 # Files && Objs
 
-FILES 	=	example	\
+FILES 	=	free		\
+			init_zone	\
+			malloc		\
+			realloc		\
 
 OBJ	   := 	$(addsuffix .o, $(FILES))
 
@@ -75,15 +85,18 @@ $(NAME)			: 	$(OBJP)
 					@echo "|                     lib compilation :                     |"
 					@echo "|                           libft                           |"
 					@make -C $(LIBDIR)
-					@$(CC) $(CFLAGS) $(OPTFLAGS) -o $@ $^ -L$(LIBDIR) -lft -lncurses -I. -I$HOME/.brew/include
+					@ar rc $@ $^
+					@ranlib $@
+					@$(CC) $(CFLAGS) $(OPTFLAGS) -shared -o $@ $^ -L$(LIBDIR) -lft -lncurses
+					@ln -s $(NAME) $(LINK)
 					@echo "|                        CAKE DONE !                        |"
 					@echo "-------------------------------------------------------------"
 					@cat cake-v2.ascii
 					@echo ""
 					@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
-$(OBJDIR)/%.o	:	%.c
-					@$(CC) $(CFLAGS) $(OPTFLAGS) -c -g  $< -o $@
+$(OBJDIR)/%.o	:	$(SRCDIR)/%.c
+					@$(CC) $(CFLAGS) $(OPTFLAGS) -c $< -o $@ -I$(LIBDIR) -I$(LIBDIR)/printf -I$(INCDIR)
 
 # Clean rules
 clean			:
@@ -92,6 +105,7 @@ clean			:
 
 fclean			: 	clean
 					@rm -f $(NAME)
+					@rm -f $(LINK)
 					@make fclean -C $(LIBDIR)
 
 # **************************************************************************** #
