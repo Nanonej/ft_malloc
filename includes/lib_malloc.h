@@ -6,7 +6,7 @@
 /*   By: aridolfi <aridolfi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 12:06:56 by aridolfi          #+#    #+#             */
-/*   Updated: 2018/04/16 17:42:18 by aridolfi         ###   ########.fr       */
+/*   Updated: 2018/04/17 15:16:07 by aridolfi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,9 @@
 # include <unistd.h>
 # include <sys/mman.h>
 
-# define TINY_RES 16
 # define TINY_MAX getpagesize() / 4
 # define TINY_ZONE 100 * TINY_MAX
 
-# define SMALL_RES 512
 # define SMALL_MAX getpagesize() * 4096
 # define SMALL_ZONE 100 * SMALL_MAX
 
