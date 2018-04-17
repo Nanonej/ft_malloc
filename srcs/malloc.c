@@ -6,24 +6,20 @@
 /*   By: aridolfi <aridolfi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 12:25:58 by aridolfi          #+#    #+#             */
-/*   Updated: 2018/04/17 11:36:12 by aridolfi         ###   ########.fr       */
+/*   Updated: 2018/04/17 14:56:28 by aridolfi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib_malloc.h"
 
-void	*alloc_zone(t_map *list, size_t size, size_t zone_max)
+void	*alloc_zone(t_map *start, size_t size, size_t zone_max)
 {
-	t_map *start;
+	t_map *list;
 	t_map *swap;
 
-	start = list;
-	while (list->next)
-	{
-		if (((char *)list->next - (char *)list->end) >= (long)size)
-			break ;
+	list = start;
+	while (list->next && ((char *)list->next - (char *)list->end) < (long)size)
 		list = list->next;
-	}
 	if ((char *)list->end + size > (char *)start + zone_max)
 		return (NULL);
 	swap = list->next;
@@ -33,17 +29,20 @@ void	*alloc_zone(t_map *list, size_t size, size_t zone_max)
 	return (list->next + 1);
 }
 
-void	*alloc_large(t_map *list, size_t size)
+void	*alloc_large(t_map *start, size_t size)
 {
-	while (list->next)
+	t_map *list;
+
+	list = start;
+	while (list)
 		list = list->next;
-	list->next = mmap(NULL, size, \
+	list = mmap(NULL, size, \
 					PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
-	if (!list->next)
+	if (!list)
 		return (NULL);
-	list->next->end = (t_map *)((char *)list->next + size);
-	list->next->next = NULL;
-	return (list->next + 1);
+	list->end = (t_map *)((char *)list + size);
+	list->next = NULL;
+	return (list + 1);
 }
 
 void	*malloc(size_t size)
