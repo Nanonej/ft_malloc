@@ -6,13 +6,13 @@
 /*   By: aridolfi <aridolfi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 12:29:30 by aridolfi          #+#    #+#             */
-/*   Updated: 2018/04/17 17:20:15 by aridolfi         ###   ########.fr       */
+/*   Updated: 2018/04/18 12:18:47 by aridolfi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib_malloc.h"
 
-void	free_alloc(t_map *start, void *ptr)
+static void	free_alloc(t_map *start, void *ptr)
 {
 	t_map *list;
 
@@ -28,7 +28,7 @@ void	free_alloc(t_map *start, void *ptr)
 	}
 }
 
-void	free(void *ptr)
+void		free(void *ptr)
 {
 	void *addr;
 

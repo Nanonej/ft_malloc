@@ -6,7 +6,7 @@
 #    By: aridolfi <aridolfi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/26 11:39:34 by aridolfi          #+#    #+#              #
-#    Updated: 2018/04/17 11:43:41 by aridolfi         ###   ########.fr        #
+#    Updated: 2018/04/18 13:28:30 by aridolfi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,10 +31,11 @@ LIBDIR	= 	./libft/
 
 # Files && Objs
 
-FILES 	=	free		\
-			init_zone	\
-			malloc		\
-			realloc		\
+FILES 	=	free			\
+			init_zone		\
+			malloc			\
+			realloc			\
+			show_alloc_mem	\
 
 OBJ	   := 	$(addsuffix .o, $(FILES))
 

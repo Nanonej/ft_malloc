@@ -6,7 +6,7 @@
 /*   By: aridolfi <aridolfi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 12:06:56 by aridolfi          #+#    #+#             */
-/*   Updated: 2018/04/17 15:16:07 by aridolfi         ###   ########.fr       */
+/*   Updated: 2018/04/18 12:44:10 by aridolfi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void			free(void *ptr);
 t_data			*init_zone(void);
 void			*malloc(size_t size);
 void			*realloc(void *ptr, size_t size);
-
-// void	show_alloc_mem();
+void			show_alloc_mem(void);
 
 #endif

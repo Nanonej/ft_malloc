@@ -6,13 +6,13 @@
 /*   By: aridolfi <aridolfi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 12:25:58 by aridolfi          #+#    #+#             */
-/*   Updated: 2018/04/17 14:56:28 by aridolfi         ###   ########.fr       */
+/*   Updated: 2018/04/18 12:18:29 by aridolfi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib_malloc.h"
 
-void	*alloc_zone(t_map *start, size_t size, size_t zone_max)
+static void	*alloc_zone(t_map *start, size_t size, size_t zone_max)
 {
 	t_map *list;
 	t_map *swap;
@@ -29,7 +29,7 @@ void	*alloc_zone(t_map *start, size_t size, size_t zone_max)
 	return (list->next + 1);
 }
 
-void	*alloc_large(t_map *start, size_t size)
+static void	*alloc_large(t_map *start, size_t size)
 {
 	t_map *list;
 
@@ -45,7 +45,7 @@ void	*alloc_large(t_map *start, size_t size)
 	return (list + 1);
 }
 
-void	*malloc(size_t size)
+void		*malloc(size_t size)
 {
 	t_map	*ptr;
 
