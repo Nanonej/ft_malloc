@@ -6,7 +6,7 @@
 #    By: aridolfi <aridolfi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/02/26 11:39:34 by aridolfi          #+#    #+#              #
-#    Updated: 2018/04/18 13:28:30 by aridolfi         ###   ########.fr        #
+#    Updated: 2018/04/19 11:15:22 by aridolfi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,6 +86,8 @@ $(NAME)			: 	$(OBJP)
 					@echo "|                     lib compilation :                     |"
 					@echo "|                           libft                           |"
 					@make -C $(LIBDIR)
+					@rm -f $(NAME)
+					@rm -f $(LINK)
 					@ar rc $@ $^
 					@ranlib $@
 					@$(CC) $(CFLAGS) $(OPTFLAGS) -shared -o $@ $^ -L$(LIBDIR) -lft -lncurses

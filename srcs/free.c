@@ -6,7 +6,7 @@
 /*   By: aridolfi <aridolfi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 12:29:30 by aridolfi          #+#    #+#             */
-/*   Updated: 2018/04/18 12:18:47 by aridolfi         ###   ########.fr       */
+/*   Updated: 2018/04/19 17:27:22 by aridolfi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,25 @@ static void	free_alloc(t_map *start, void *ptr)
 	}
 }
 
+static void	free_large(void *ptr)
+{
+	t_map *list;
+	t_map *tmp;
+
+	list = init_zone()->large;
+	while (list->next)
+	{
+		if (ptr == (list->next + 1))
+		{
+			tmp = list->next->next;
+			munmap(list->next, (char *)list->next->end - (char *)list->next);
+			list->next = tmp;
+			return ;
+		}
+		list = list->next;
+	}
+}
+
 void		free(void *ptr)
 {
 	void *addr;
@@ -40,5 +59,5 @@ void		free(void *ptr)
 	addr = init_zone()->small;
 	if (addr < ptr && ptr < (addr + SMALL_ZONE))
 		return (free_alloc(addr, ptr));
-	free_alloc(init_zone()->large, ptr);
+	free_large(ptr);
 }

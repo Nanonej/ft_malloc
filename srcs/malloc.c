@@ -6,7 +6,7 @@
 /*   By: aridolfi <aridolfi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 12:25:58 by aridolfi          #+#    #+#             */
-/*   Updated: 2018/04/18 12:18:29 by aridolfi         ###   ########.fr       */
+/*   Updated: 2018/04/19 18:35:47 by aridolfi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,19 @@ static void	*alloc_zone(t_map *start, size_t size, size_t zone_max)
 	return (list->next + 1);
 }
 
-static void	*alloc_large(t_map *start, size_t size)
+static void	*alloc_large(size_t size)
 {
 	t_map *list;
 
-	list = start;
-	while (list)
+	list = init_zone()->large;
+	while (list->next)
 		list = list->next;
-	list = mmap(NULL, size, \
-					PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
-	if (!list)
+	if (!(list->next = mmap(NULL, size, \
+					PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)))
 		return (NULL);
-	list->end = (t_map *)((char *)list + size);
-	list->next = NULL;
-	return (list + 1);
+	list->next->end = (t_map *)((char *)list->next + size);
+	list->next->next = NULL;
+	return (list->next + 1);
 }
 
 void		*malloc(size_t size)
@@ -50,7 +49,7 @@ void		*malloc(size_t size)
 	t_map	*ptr;
 
 	ptr = NULL;
-	size += sizeof(ptr);
+	size += sizeof(t_map);
 	if (!size)
 		return (NULL);
 	else if (size <= (size_t)TINY_MAX)
@@ -58,6 +57,6 @@ void		*malloc(size_t size)
 	else if (size <= (size_t)SMALL_MAX)
 		ptr = alloc_zone(init_zone()->small, size, SMALL_ZONE);
 	if (!ptr)
-		ptr = alloc_large(init_zone()->large, size);
+		ptr = alloc_large(size);
 	return (ptr);
 }

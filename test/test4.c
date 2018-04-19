@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   test4.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aridolfi <aridolfi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/11 22:05:38 by aridolfi          #+#    #+#             */
-/*   Updated: 2018/04/19 18:48:49 by aridolfi         ###   ########.fr       */
+/*   Created: 2018/04/19 17:28:13 by aridolfi          #+#    #+#             */
+/*   Updated: 2018/04/19 17:28:15 by aridolfi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
 
-void	ft_putnbr_fd(int n, int fd)
+void	print(char *s)
 {
-	if (n >= 0)
-		n = -n;
-	else
-		ft_putchar_fd('-', fd);
-	if (n < -9)
-		ft_putnbr_fd(-(n / 10), fd);
-	ft_putchar_fd(-(n % 10) + 48, fd);
+	write(1, s, strlen(s));
+}
+
+int		main(void)
+{
+	char *addr;
+
+	addr = malloc(16);
+	free(NULL);
+	free((void *)addr + 5);
+	if (realloc((void *)addr + 5, 10) == NULL)
+		print("Bonjours\n");
 }

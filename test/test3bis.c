@@ -1,24 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   test3bis.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aridolfi <aridolfi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/11 22:05:38 by aridolfi          #+#    #+#             */
-/*   Updated: 2018/04/19 18:48:49 by aridolfi         ###   ########.fr       */
+/*   Created: 2018/04/19 16:03:26 by aridolfi          #+#    #+#             */
+/*   Updated: 2018/04/19 16:03:29 by aridolfi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <strings.h>
+#include <stdlib.h>
+#include <unistd.h>
 
-void	ft_putnbr_fd(int n, int fd)
+#define M (1024 * 1024)
+
+void	print(char *s)
 {
-	if (n >= 0)
-		n = -n;
-	else
-		ft_putchar_fd('-', fd);
-	if (n < -9)
-		ft_putnbr_fd(-(n / 10), fd);
-	ft_putchar_fd(-(n % 10) + 48, fd);
+	write(1, s, strlen(s));
+}
+
+int		main(void)
+{
+	char	*addr1;
+	char	*addr2;
+	char	*addr3;
+
+	addr1 = (char *)malloc(16 * M);
+	strcpy(addr1, "Bonjours\n");
+	print(addr1);
+	addr2 = (char *)malloc(16 * M);
+	addr3 = (char *)realloc(addr1, 128 * M);
+	addr3[127 * M] = 42;
+	print(addr3);
+	return (0);
 }
