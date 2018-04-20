@@ -6,7 +6,7 @@
 /*   By: aridolfi <aridolfi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 12:25:58 by aridolfi          #+#    #+#             */
-/*   Updated: 2018/04/20 16:09:54 by aridolfi         ###   ########.fr       */
+/*   Updated: 2018/04/20 18:50:05 by aridolfi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,17 +48,19 @@ static void		*alloc_large(size_t size)
 
 void			*malloc(size_t size)
 {
-	t_map	*ptr;
+	t_map			*ptr;
+	struct rlimit	rlim;
 
 	pthread_mutex_lock(&g_lock);
 	ptr = NULL;
-	size += sizeof(t_map);
-	if (!size)
+	getrlimit(RLIMIT_DATA, &rlim);
+	if (!size || (size >= (rlim.rlim_cur - sizeof(t_map))))
 	{
 		pthread_mutex_unlock(&g_lock);
 		return (NULL);
 	}
-	else if (size <= (size_t)TINY_MAX)
+	size += sizeof(t_map);
+	if (size <= (size_t)TINY_MAX)
 		ptr = alloc_zone(init_zone()->tiny, size, TINY_ZONE);
 	else if (size <= (size_t)SMALL_MAX)
 		ptr = alloc_zone(init_zone()->small, size, SMALL_ZONE);
