@@ -6,7 +6,7 @@
 /*   By: aridolfi <aridolfi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/18 12:43:34 by aridolfi          #+#    #+#             */
-/*   Updated: 2018/04/18 13:29:53 by aridolfi         ###   ########.fr       */
+/*   Updated: 2018/04/20 15:32:53 by aridolfi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void		show_alloc_mem(void)
 	t_map	*list;
 	size_t	total;
 
+	pthread_mutex_lock(&g_lock);
 	total = 0;
 	list = init_zone()->tiny;
 	write(1, "TINY : ", 7);
@@ -71,4 +72,5 @@ void		show_alloc_mem(void)
 	write(1, "Total : ", 8);
 	ft_putnbr(total);
 	write(1, " octets\n", 8);
+	pthread_mutex_unlock(&g_lock);
 }

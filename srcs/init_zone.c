@@ -6,13 +6,13 @@
 /*   By: aridolfi <aridolfi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/11 13:58:55 by aridolfi          #+#    #+#             */
-/*   Updated: 2018/04/19 16:44:28 by aridolfi         ###   ########.fr       */
+/*   Updated: 2018/04/20 16:24:21 by aridolfi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib_malloc.h"
 
-t_data *g_zone = NULL;
+t_data	*g_zone = NULL;
 
 t_data	*init_zone(void)
 {

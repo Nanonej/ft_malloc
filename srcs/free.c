@@ -6,7 +6,7 @@
 /*   By: aridolfi <aridolfi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 12:29:30 by aridolfi          #+#    #+#             */
-/*   Updated: 2018/04/19 17:27:22 by aridolfi         ###   ########.fr       */
+/*   Updated: 2018/04/20 16:10:30 by aridolfi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,26 @@ void		free(void *ptr)
 {
 	void *addr;
 
+	pthread_mutex_lock(&g_lock);
 	if (!ptr)
+	{
+		pthread_mutex_unlock(&g_lock);
 		return ;
+	}
 	addr = init_zone()->tiny;
 	if (addr < ptr && ptr < (addr + TINY_ZONE))
-		return (free_alloc(addr, ptr));
+	{
+		free_alloc(addr, ptr);
+		pthread_mutex_unlock(&g_lock);
+		return ;
+	}
 	addr = init_zone()->small;
 	if (addr < ptr && ptr < (addr + SMALL_ZONE))
-		return (free_alloc(addr, ptr));
+	{
+		free_alloc(addr, ptr);
+		pthread_mutex_unlock(&g_lock);
+		return ;
+	}
 	free_large(ptr);
+	pthread_mutex_unlock(&g_lock);
 }
