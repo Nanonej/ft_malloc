@@ -6,7 +6,7 @@
 /*   By: aridolfi <aridolfi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 12:29:30 by aridolfi          #+#    #+#             */
-/*   Updated: 2018/04/20 16:10:30 by aridolfi         ###   ########.fr       */
+/*   Updated: 2018/04/23 16:18:53 by aridolfi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ static void	free_large(void *ptr)
 		if (ptr == (list->next + 1))
 		{
 			tmp = list->next->next;
-			munmap(list->next, (char *)list->next->end - (char *)list->next);
+			if ((munmap(list->next, \
+						(char *)list->next->end - (char *)list->next)) < 0)
+				return ;
 			list->next = tmp;
 			return ;
 		}
