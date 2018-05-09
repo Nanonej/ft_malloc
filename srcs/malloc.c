@@ -6,7 +6,7 @@
 /*   By: aridolfi <aridolfi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/21 12:25:58 by aridolfi          #+#    #+#             */
-/*   Updated: 2018/04/23 11:29:20 by aridolfi         ###   ########.fr       */
+/*   Updated: 2018/05/01 15:12:14 by aridolfi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ static void		*alloc_large(size_t size)
 	list = init_zone()->large;
 	while (list->next)
 		list = list->next;
-	if ((list->next = mmap(NULL, size, \
-					PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
+	if ((list->next = mmap(NULL, size, PROT_READ | PROT_WRITE, \
+							MAP_ANON | MAP_PRIVATE, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	list->next->end = (t_map *)((char *)list->next + size);
 	list->next->next = NULL;
